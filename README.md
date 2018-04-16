@@ -1,10 +1,15 @@
 # Clinic Data Acquisition
 
 ## Keithley 2000
-keithley2.py
+To Do:
+-[] Save data to csv
 
 ## Vitrek
-vitrek.py
+To Do:
+-[] Convert to class to support custom test types
 
-## Graphical User Interface
-controller.py
+## Graphical User Interface (controller.py)
+To Do:
+-[] Set up plot
+-[] Run scripts in parallel
+-[] Set up button

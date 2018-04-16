@@ -31,9 +31,9 @@ class Keithley2:
         k.write(":SYSTEM:AZERO:STAT OFF")
         k.write(":DISP:ENAB OFF")
         k.write(":SAMP:COUNT 1")
-    def read(self, running)
-        while(running):
-            voltages.append(k.query(":READ?"))
+        
+    def read(self):
+        voltages.append(k.query(":READ?"))
 
     def convert(self):
         for j in range(len(voltages)):

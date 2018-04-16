@@ -1,5 +1,12 @@
 import pyvisa
 
+class Vitrek:
+  
+  def __init__(self, testType, vMax):
+    self.testType = testType
+    self.vMax = vMax
+    
+   
 rm = pyvisa.ResourceManager()
 v = rm.open_resource("ASRL10::INSTR")
 v.baud_rate = 9600

@@ -7,7 +7,7 @@ from enum import Enum
 #import keithley6.py
 #import vitrek.py
 
-class Test(Enum):
+class TestType(Enum):
     astm = 1
     dod = 2
 
@@ -25,10 +25,6 @@ for port in ports:
 window = Tk()
 window.title("Dielectric Breakdown Testing")
 window.geometry("400x400")
-
-# Set up for dropdown menus
-com = StringVar(window)
-com.set("COM1")
 
 # Vitrek Menu
 v_com = StringVar(window)
@@ -68,15 +64,13 @@ lbl.grid(column=0, row=6, sticky=W)
 sel1 = Radiobutton(window, 
               text="ASTM",
               variable=v,
-              value=Test.astm.value)
+              value=TestType.astm.value)
 sel2 = Radiobutton(window, 
               text="DoD",
               variable=v,
-              value=Test.dod.value)
+              value=TestType.dod.value)
 sel1.grid(column=0, row=7, sticky=W, padx=20)
 sel2.grid(column=0, row=8, sticky=W, padx=20)
-
-
 
 # Run mainloop
 window.mainloop()

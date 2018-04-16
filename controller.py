@@ -1,3 +1,13 @@
+'''
+Modules Requiried
+[x] Selection of Com Port for Each Instrument
+[x] Selection of Test Type
+[ ] Start Button
+[ ] Stop Button
+[ ] Text field stating Breakdown Voltage
+[ ] Plots
+'''
+
 from Tkinter import *
 import Tkinter as ttk
 from ttk import *

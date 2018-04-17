@@ -2,29 +2,29 @@ import pyvisa
 
 class Vitrek:
     def __init__(self):
-        rm = pyvisa.ResourceManager()
-        v = rm.open_resource("ASRL10::INSTR")
-        v.baud_rate = 9600
-        v.data_bits = 8
-        v.parity = pyvisa.constants.Parity.none
-        v.stop_bits = pyvisa.constants.StopBits.one
-        v.read_termination = '\r\n'
-        v.timeout = 5000
+        self.rm = pyvisa.ResourceManager()
+        self.v = self.rm.open_resource("ASRL10::INSTR", access_mode=4)
+        self.v.baud_rate = 9600
+        self.v.data_bits = 8
+        self.v.parity = pyvisa.constants.Parity.none
+        self.v.stop_bits = pyvisa.constants.StopBits.one
+        self.v.read_termination = '\r'
+        self.v.set_visa_attribute(pyvisa.constants.VI_ATTR_ASRL_FLOW_CNTRL,
+                                  pyvisa.constants.VI_ASRL_FLOW_RTS_CTS)
+        self.v.timeout = 20000
 
     def sendTest(self, testType, voltType, voltMax):
-        if voltType = "DC":
-            voltType = "DCEZ"
-        elif voltType = "AC":
-            voltType = "ACEZ"
+        stringSend = ""
+        if voltType == "DC":
+            stringSend = "NOSEQ;ADD,DCEZ,"+str(voltMax)+","+str(voltMax/500.0)+",5.0,0.0,0.005,ABORT;RUN"
+        elif voltType == "AC":
+            stringSend = "NOSEQ;ADD,ACEZ,"+str(voltMax)+",60.0,"+str(voltMax/500.0)+",3.0,0.0,0.005,ABORT;RUN"
             
-        v.write("NOSEQ;ADD," +
-                voltType +
-                "," + str(voltMax)  +
-                ",60.0," + (voltMax/500.0) +
-                ",3.0,0.0,0.005,ABORT;RUN")
+        self.v.write(stringSend)
 
-    def getPass(self):
-        res = v.query("STEPRSLT?,1")
+    def getResults(self):
+        res = self.v.query("STEPRSLT?,1")
+        return res
         
-    def close(self):
-        v.close()
+    def cl(self):
+        self.v.close()

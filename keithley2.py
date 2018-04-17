@@ -5,35 +5,35 @@ import csv
 
 class Keithley2:
     def __init__(self):
-        rm = pyvisa.ResourceManager()
-        k = rm.open_resource("ASRL7::INSTR")
-        k.baud_rate = 19200
-        k.data_bits = 8
-        k.parity = pyvisa.constants.Parity.none
-        k.stop_bits = pyvisa.constants.StopBits.one
-        k.read_termination = '\r'
-        k.timeout = 50000
+        self.rm = pyvisa.ResourceManager()
+        self.k = rm.open_resource("ASRL7::INSTR")
+        self.k.baud_rate = 19200
+        self.k.data_bits = 8
+        self.k.parity = pyvisa.constants.Parity.none
+        self.k.stop_bits = pyvisa.constants.StopBits.one
+        self.k.read_termination = '\r'
+        self.k.timeout = 50000
         voltages = []
         volt_form = []
         
     def ready(self):
-        k.write("*RST")
-        k.write(":FUNC 'VOLT:DC'")
-        k.write(":SENS:VOLT:DC:AVER:STAT OFF")
-        k.write(":SENS:VOLT:DC:NPLC 0.01")
-        k.write(":SENS:VOLT:DC:DIG 4")
-        k.write(":RES:RANGE 1")
-        k.write(":RES:AVER:STAT OFF")
-        k.write(":FORM:ELEM READ")
-        k.write(":TRIG:COUN 1")
-        k.write(":TRIG:DEL 0.0")
-        k.write(":TRIG:SOUR IMM")
-        k.write(":SYSTEM:AZERO:STAT OFF")
-        k.write(":DISP:ENAB OFF")
-        k.write(":SAMP:COUNT 1")
+        self.k.write("*RST")
+        self.k.write(":FUNC 'VOLT:DC'")
+        self.k.write(":SENS:VOLT:DC:AVER:STAT OFF")
+        self.k.write(":SENS:VOLT:DC:NPLC 0.01")
+        self.k.write(":SENS:VOLT:DC:DIG 4")
+        self.k.write(":RES:RANGE 1")
+        self.k.write(":RES:AVER:STAT OFF")
+        self.k.write(":FORM:ELEM READ")
+        self.k.write(":TRIG:COUN 1")
+        self.k.write(":TRIG:DEL 0.0")
+        self.k.write(":TRIG:SOUR IMM")
+        self.k.write(":SYSTEM:AZERO:STAT OFF")
+        self.k.write(":DISP:ENAB OFF")
+        self.k.write(":SAMP:COUNT 1")
         
     def read(self):
-        voltages.append(k.query(":READ?"))
+        voltages.append(self.k.query(":READ?"))
 
     def convert(self):
         for j in range(len(voltages)):
@@ -47,8 +47,5 @@ class Keithley2:
             writeOut = csv.writer(csvfile, delimiter=',')
             writeOut.writerow(volt_form)
                 
-    def close(self):
-        k.close()
-
-#plt.plot(volt_form)
-#plt.show()
+    def cl(self):
+        self.k.close()

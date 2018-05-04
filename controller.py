@@ -2,22 +2,30 @@
 Modules Requiried
 [x] Selection of Com Port for Each Instrument
 [x] Selection of Test Type
-[ ] Start Button
-[ ] Stop Button
+[x] Start Button
+[x] Stop Button
 [ ] Text field stating Breakdown Voltage
 [ ] Plots
+[ ] Serial Number Generation
 '''
 
 from Tkinter import *
 import Tkinter as ttk
 from ttk import *
 import serial
+import matplotlib
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 from enum import Enum
+import os
 #import keithley2.py
 #import keithley6.py
 #import vitrek.py
 
-class TestType(Enum):
+PATH = "C:\"
+
+class Test(Enum):
     astm = 1
     dod = 2
 
@@ -34,7 +42,11 @@ for port in ports:
 # Set up window
 window = Tk()
 window.title("Dielectric Breakdown Testing")
-window.geometry("400x400")
+window.geometry("600x600")
+
+# Set up for dropdown menus
+com = StringVar(window)
+com.set("COM1")
 
 # Vitrek Menu
 v_com = StringVar(window)
@@ -74,13 +86,25 @@ lbl.grid(column=0, row=6, sticky=W)
 sel1 = Radiobutton(window, 
               text="ASTM",
               variable=v,
-              value=TestType.astm.value)
+              value=Test.astm.value)
 sel2 = Radiobutton(window, 
               text="DoD",
               variable=v,
-              value=TestType.dod.value)
+              value=Test.dod.value)
 sel1.grid(column=0, row=7, sticky=W, padx=20)
 sel2.grid(column=0, row=8, sticky=W, padx=20)
+
+# Embedded Plot
+f = Figure(figsize=(3.5,3.5), dpi=100)
+a = f.add_subplot(111)
+###### Replace this with relevant data ######
+a.plot([1, 2, 3, 4, 5, 6, 7, 8], [5, 6, 1, 3, 8, 9, 3, 5])
+canvas = FigureCanvasTkAgg(f, master=window)
+##### Edit location of plot ########
+canvas.get_tk_widget().grid(column=2, row=9)
+canvas.draw()
+
+
 
 # Run mainloop
 window.mainloop()

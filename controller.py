@@ -23,7 +23,8 @@ import os
 #import keithley6.py
 #import vitrek.py
 
-PATH = "C:\"
+# Change path to where files will be saved
+PATH = "C:"
 
 class Test(Enum):
     astm = 1
